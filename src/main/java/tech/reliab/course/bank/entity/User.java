@@ -1,10 +1,8 @@
 package tech.reliab.course.bank.entity;
 
 import lombok.*;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
+
 import java.util.Date;
-import java.util.List;
 
 @Data
 @Builder
@@ -16,7 +14,7 @@ public class User {
     Date dateOfBirth;
     String workplace;
     Integer monthlyIncome;
-    String[] banksUsed;
+    String bankUsed;
     Long creditAccountId;
     Long paymentAccountId;
     Integer creditRating;
