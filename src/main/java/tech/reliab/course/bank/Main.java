@@ -205,10 +205,8 @@ public class Main {
     }
 
     public static void main(String[] args) {
-//        clearDB();
-//        taskInitialized();
+        clearDB();
+        initializeAll();
         printAll();
-
-
     }
 }

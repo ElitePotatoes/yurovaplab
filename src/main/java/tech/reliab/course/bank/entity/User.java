@@ -1,6 +1,7 @@
 package tech.reliab.course.bank.entity;
 
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.util.Date;
 
@@ -8,6 +9,7 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class User {
     Long id;
     String fullName;

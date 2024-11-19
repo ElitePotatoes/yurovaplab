@@ -27,25 +27,27 @@ public class UserDAO implements DAO<User, Long> {
     }
 
     @Override
-    public Optional<User> get(Long id) {
-        String sql = "SELECT * FROM public.user where id=?";
+    public User get(Long id) {
+        User user = new User();
 
+        String sql = "SELECT * FROM public.user where id=?";
         try (Connection conn = DataSource.getConnection()) {
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setLong(1, id);
             ResultSet rs = statement.executeQuery();
-            if (rs.next()) {
-                User user = builderUser(rs);
-                rs.close();
-                statement.close();
-
-                return Optional.ofNullable(user);
+            if (!rs.next()) {
+                throw new NullPointerException("Exception: rs is null!");
             }
+
+            user = builderUser(rs);
+            rs.close();
+            statement.close();
+
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
 
-        return Optional.empty();
+        return user;
     }
 
     @Override

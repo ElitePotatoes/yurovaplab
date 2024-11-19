@@ -24,24 +24,26 @@ public class EmployeeDAO implements DAO<Employee, Long> {
     }
 
     @Override
-    public Optional<Employee> get(Long id) {
+    public Employee get(Long id) {
+        Employee employee = new Employee();
+
         String sql = "SELECT * FROM employee where id=?";
         try (Connection conn = DataSource.getConnection()) {
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setLong(1, id);
             ResultSet rs = statement.executeQuery();
-            if (rs.next()) {
-                Employee employee = builderEmployee(rs);
-                rs.close();
-                statement.close();
-
-                return Optional.ofNullable(employee);
+            if (!rs.next()) {
+                throw new NullPointerException("Exception: rs is null!");
             }
+
+            employee = builderEmployee(rs);
+            rs.close();
+            statement.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
 
-        return Optional.empty();
+        return employee;
     }
 
     @Override

@@ -5,13 +5,14 @@ import tech.reliab.course.bank.entity.BankOffice;
 import tech.reliab.course.bank.service.BankOfficeService;
 
 import java.util.List;
+import java.util.Optional;
 
 public class BankOfficeServiceImpl implements BankOfficeService {
     private final BankOfficeDAO bankOfficeDAO = new BankOfficeDAO();
 
     @Override
     public BankOffice get(long bankId) {
-        return bankOfficeDAO.get(bankId).orElse(null);
+        return bankOfficeDAO.get(bankId);
     }
 
     @Override

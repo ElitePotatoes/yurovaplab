@@ -20,31 +20,28 @@ public class PaymentAccountDAO implements DAO<PaymentAccount, Long> {
     }
 
     @Override
-    public Optional<PaymentAccount> get(Long id) {
-        String sql = "SELECT * FROM payment_account WHERE id=?";
+    public PaymentAccount get(Long id) {
+        PaymentAccount payAcc = new PaymentAccount();
 
+        String sql = "SELECT * FROM payment_account WHERE id=?";
         try (Connection conn = DataSource.getConnection()) {
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setLong(1, id);
             ResultSet rs = statement.executeQuery();
-            if (rs.next()) {
-                PaymentAccount payAcc = builderPaymentAccount(rs);
-                rs.close();
-                statement.close();
-
-                return Optional.ofNullable(payAcc);
+            if (!rs.next()) {
+                throw new NullPointerException("Exception: rs is null!");
             }
+
+            payAcc = builderPaymentAccount(rs);
+            rs.close();
+            statement.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
 
-        return Optional.empty();
+        return payAcc;
     }
 
-    /*
-     * Should return all objects in database payment_account.
-     * @return      the list of all entities in database payment_account
-     */
     @Override
     public List<PaymentAccount> getAll() {
         String sql = "SELECT * FROM payment_account";

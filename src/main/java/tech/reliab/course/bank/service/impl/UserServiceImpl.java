@@ -5,13 +5,14 @@ import tech.reliab.course.bank.entity.User;
 import tech.reliab.course.bank.service.UserService;
 
 import java.util.List;
+import java.util.Optional;
 
 public class UserServiceImpl implements UserService {
     private final UserDAO userDAO = new UserDAO();
 
     @Override
     public User get(long userId) {
-        return userDAO.get(userId).orElse(null);
+        return userDAO.get(userId);
     }
 
     @Override

@@ -5,13 +5,14 @@ import tech.reliab.course.bank.entity.PaymentAccount;
 import tech.reliab.course.bank.service.PaymentAccountService;
 
 import java.util.List;
+import java.util.Optional;
 
 public class PaymentAccountServiceImpl implements PaymentAccountService {
     private final PaymentAccountDAO paymentAccountDAO = new PaymentAccountDAO();
 
     @Override
     public PaymentAccount get(long paymentAccountId) {
-        return paymentAccountDAO.get(paymentAccountId).orElse(null);
+        return paymentAccountDAO.get(paymentAccountId);
     }
 
     @Override

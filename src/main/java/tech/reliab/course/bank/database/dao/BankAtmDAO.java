@@ -1,6 +1,7 @@
 package tech.reliab.course.bank.database.dao;
 
 import tech.reliab.course.bank.database.config.DataSource;
+import tech.reliab.course.bank.entity.Bank;
 import tech.reliab.course.bank.entity.BankAtm;
 
 import java.sql.*;
@@ -26,24 +27,25 @@ public class BankAtmDAO implements DAO<BankAtm, Long> {
     }
 
     @Override
-    public Optional<BankAtm> get(Long id) {
+    public BankAtm get(Long id) {
         String sql = "SELECT * FROM bank_atm where id=?";
+        BankAtm atm = new BankAtm();
         try (Connection conn = DataSource.getConnection()) {
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setLong(1, id);
             ResultSet rs = statement.executeQuery();
-            if (rs.next()) {
-                BankAtm atm = builderBankAtm(rs);
-                rs.close();
-                statement.close();
-
-                return Optional.ofNullable(atm);
+            if (!rs.next()) {
+                throw new NullPointerException("Exception: rs is null!");
             }
+
+            atm = builderBankAtm(rs);
+            rs.close();
+            statement.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
 
-        return Optional.empty();
+        return atm;
     }
 
     @Override

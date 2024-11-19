@@ -27,24 +27,25 @@ public class BankDAO implements DAO<Bank, Long> {
     }
 
     @Override
-    public Optional<Bank> get(Long id) {
+    public Bank get(Long id) {
+        Bank bank = new Bank();
         String sql = "SELECT * FROM bank where id=?";
         try (Connection conn = DataSource.getConnection()) {
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setLong(1, id);
             ResultSet rs = statement.executeQuery();
-            if (rs.next()) {
-                Bank bank = builderBank(rs);
-                rs.close();
-                statement.close();
-
-                return Optional.ofNullable(bank);
+            if (!rs.next()) {
+                throw new NullPointerException("Exception: rs is null!");
             }
+
+            bank = builderBank(rs);
+            rs.close();
+            statement.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
 
-        return Optional.empty();
+        return bank;
     }
 
     @Override

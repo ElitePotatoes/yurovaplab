@@ -27,24 +27,26 @@ public class CreditAccountDAO implements DAO<CreditAccount, Long> {
     }
 
     @Override
-    public Optional<CreditAccount> get(Long id) {
+    public CreditAccount get(Long id) {
+        CreditAccount credAcc = new CreditAccount();
+
         String sql = "SELECT * FROM credit_account where id=?";
         try (Connection conn = DataSource.getConnection()) {
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setLong(1, id);
             ResultSet rs = statement.executeQuery();
-            if (rs.next()) {
-                CreditAccount credAcc = builderCreditAccount(rs);
-                rs.close();
-                statement.close();
-
-                return Optional.ofNullable(credAcc);
+            if (!rs.next()) {
+                throw new NullPointerException("Exception: rs is null!");
             }
+
+            credAcc = builderCreditAccount(rs);
+            rs.close();
+            statement.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
 
-        return Optional.empty();
+        return credAcc;
     }
 
     @Override

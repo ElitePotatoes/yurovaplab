@@ -5,13 +5,14 @@ import tech.reliab.course.bank.entity.BankAtm;
 import tech.reliab.course.bank.service.BankAtmService;
 
 import java.util.List;
+import java.util.Optional;
 
 public class BankAtmServiceImpl implements BankAtmService {
     private final BankAtmDAO bankAtmDAO = new BankAtmDAO();
 
     @Override
     public BankAtm get(long bankId) {
-        return bankAtmDAO.get(bankId).orElse(null);
+        return bankAtmDAO.get(bankId);
     }
 
     @Override

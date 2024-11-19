@@ -5,13 +5,14 @@ import tech.reliab.course.bank.entity.CreditAccount;
 import tech.reliab.course.bank.service.CreditAccountService;
 
 import java.util.List;
+import java.util.Optional;
 
 public class CreditAccountServiceImpl implements CreditAccountService {
     private final CreditAccountDAO creditAccountDAO = new CreditAccountDAO();
 
     @Override
     public CreditAccount get(long creditAccountId) {
-        return creditAccountDAO.get(creditAccountId).orElse(null);
+        return creditAccountDAO.get(creditAccountId);
     }
 
     @Override

@@ -28,24 +28,26 @@ public class BankOfficeDAO implements DAO<BankOffice, Long> {
     }
 
     @Override
-    public Optional<BankOffice> get(Long id) {
+    public BankOffice get(Long id) {
+        BankOffice office = new BankOffice();
+
         String sql = "SELECT * FROM bank_office where id=?";
         try (Connection conn = DataSource.getConnection()) {
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setLong(1, id);
             ResultSet rs = statement.executeQuery();
-            if (rs.next()) {
-                BankOffice office = builderBankOffice(rs);
-                rs.close();
-                statement.close();
-
-                return Optional.ofNullable(office);
+            if (!rs.next()) {
+                throw new NullPointerException("Exception: rs is null!");
             }
+
+            office = builderBankOffice(rs);
+            rs.close();
+            statement.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
 
-        return Optional.empty();
+        return office;
     }
 
     @Override

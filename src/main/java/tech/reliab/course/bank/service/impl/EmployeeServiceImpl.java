@@ -5,13 +5,14 @@ import tech.reliab.course.bank.entity.Employee;
 import tech.reliab.course.bank.service.EmployeeService;
 
 import java.util.List;
+import java.util.Optional;
 
 public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeDAO employeeDAO = new EmployeeDAO();
 
     @Override
     public Employee get(long employeeId) {
-        return employeeDAO.get(employeeId).orElse(null);
+        return employeeDAO.get(employeeId);
     }
 
     @Override
